@@ -1,9 +1,17 @@
 package com.ptCricket.models;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Players {
@@ -15,8 +23,33 @@ public class Players {
 	private String phnNumber;
 	private String email;
 	private Double wallet;
+	@Lob
 	private byte[] playerPhoto;
 	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "playersPlayed")
+	private Set<Matches> matches = new HashSet<Matches>();
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "playersWhoTookTheirCar")
+	private Set<Matches> carInMatch = new HashSet<>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "player")
+	private Set<Transactions> transactions = new HashSet<>();
+	
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+	/**
+	 * @return the transactions
+	 */
+	public Set<Transactions> getTransactions() {
+		return transactions;
+	}
 	public Players() {
 		super();
 	}
@@ -57,5 +90,17 @@ public class Players {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	/**
+	 * @return the matches
+	 */
+	public Set<Matches> getMatches() {
+		return matches;
+	}
+	/**
+	 * @return the carInMatch
+	 */
+	public Set<Matches> getCarInMatch() {
+		return carInMatch;
 	}
 }

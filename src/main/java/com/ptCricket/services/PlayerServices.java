@@ -24,4 +24,8 @@ public class PlayerServices {
 	public Players save(Players objPlayers) {
 		return playerDao.save(objPlayers);
 	}
+	
+	public Players findById(int id) {
+		return this.playerDao.findById(id).get();
+	}
 }

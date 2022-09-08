@@ -1,5 +1,6 @@
 package com.ptCricket.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,10 @@ public class AdminService {
 
 	public Admin save(Admin objAdmin) {
 		return adminDao.save(objAdmin);
+	}
+	
+	public List<Admin> findAll(){
+		return (List<Admin>) this.adminDao.findAll();
 	}
 	
 	public Admin findById(String uname) {
