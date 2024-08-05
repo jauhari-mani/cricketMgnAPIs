@@ -1,6 +1,7 @@
 package com.ptCricket.models;
 
-import java.util.Date;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,9 +17,9 @@ import javax.persistence.ManyToMany;
 public class Matches {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int matchId;
-	private Date dateOfMatch;
+	private LocalDate dateOfMatch;
 	private double price;
 	private double totalFees;
 	private double carCompensation;
@@ -62,9 +63,10 @@ public class Matches {
 	 * @param totalFees
 	 * @param carCompensation
 	 * @param playGround
+	 * @throws ParseException 
 	 */
-	public Matches(Date dateOfMatch, double price, Double totalFees, Double carCompensation,
-			String playGround) {
+	public Matches(LocalDate dateOfMatch, double price, Double totalFees, Double carCompensation,
+			String playGround) throws ParseException {
 		super();
 		this.dateOfMatch = dateOfMatch;
 		this.price = price;
@@ -76,13 +78,14 @@ public class Matches {
 	/**
 	 * @return the dateOfMatch
 	 */
-	public Date getDateOfMatch() {
+	public LocalDate getDateOfMatch() {
 		return dateOfMatch;
 	}
 	/**
 	 * @param dateOfMatch the dateOfMatch to set
+	 * @throws ParseException 
 	 */
-	public void setDateOfMatch(Date dateOfMatch) {
+	public void setDateOfMatch(LocalDate dateOfMatch) throws ParseException {
 		this.dateOfMatch = dateOfMatch;
 	}
 	/**

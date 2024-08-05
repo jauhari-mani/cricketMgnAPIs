@@ -3,11 +3,13 @@ package com.ptCricket.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -17,14 +19,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Players {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
 	private String name;
+	@Column(unique = true)
 	private String phnNumber;
+	@Column(unique = true)
 	private String email;
 	private Double wallet;
-	@Lob
-	private byte[] playerPhoto;
+	private String profilePhotoPath;
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "playersPlayed")
@@ -35,9 +38,16 @@ public class Players {
 	private Set<Matches> carInMatch = new HashSet<>();
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "player")
+	@OneToMany(mappedBy = "player", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	private Set<Transactions> transactions = new HashSet<>();
 	
+	
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 	/**
 	 * @return the id
 	 */
@@ -53,13 +63,30 @@ public class Players {
 	public Players() {
 		super();
 	}
-	public Players(String name, String phnNumber, String email, Double wallet, byte[] playerPhoto) {
+	
+	/**
+	 * @param id
+	 * @param name
+	 * @param phnNumber
+	 * @param email
+	 * @param wallet
+	 * @param profilePhotoPath
+	 * @param matches
+	 * @param carInMatch
+	 * @param transactions
+	 */
+	public Players(int id, String name, String phnNumber, String email, Double wallet, String profilePhotoPath,
+			Set<Matches> matches, Set<Matches> carInMatch, Set<Transactions> transactions) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.phnNumber = phnNumber;
 		this.email = email;
 		this.wallet = wallet;
-		this.playerPhoto = playerPhoto;
+		this.profilePhotoPath = profilePhotoPath;
+		this.matches = matches;
+		this.carInMatch = carInMatch;
+		this.transactions = transactions;
 	}
 	public String getName() {
 		return name;
@@ -79,17 +106,26 @@ public class Players {
 	public void setWallet(Double wallet) {
 		this.wallet = wallet;
 	}
-	public byte[] getPlayerPhoto() {
-		return playerPhoto;
-	}
-	public void setPlayerPhoto(byte[] playerPhoto) {
-		this.playerPhoto = playerPhoto;
-	}
+	
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	
+	/**
+	 * @return the profilePhotoPath
+	 */
+	public String getProfilePhotoPath() {
+		return profilePhotoPath;
+	}
+	/**
+	 * @param profilePhotoPath the profilePhotoPath to set
+	 */
+	public void setProfilePhotoPath(String profilePhotoPath) {
+		this.profilePhotoPath = profilePhotoPath;
 	}
 	/**
 	 * @return the matches

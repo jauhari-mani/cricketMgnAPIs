@@ -3,6 +3,7 @@ package com.ptCricket.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.ptCricket.services.TransactionService;
 
 @RestController
 @RequestMapping("/transactions")
+@CrossOrigin("*")
 public class TransactionsController {
 
 	@Autowired
@@ -36,8 +38,8 @@ public class TransactionsController {
 	}
 	
 	@GetMapping("/{id}")
-	public List<Transactions> findByPlayer(@PathVariable int playerId){
-		Players objPlayers = this.playerServices.findById(playerId);
+	public List<Transactions> findByPlayer(@PathVariable int id){
+		Players objPlayers = this.playerServices.findById(id);
 		return this.transactionService.findAllByPlayer(objPlayers);
 	}
 }

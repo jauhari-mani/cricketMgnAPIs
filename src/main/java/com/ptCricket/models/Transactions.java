@@ -1,9 +1,10 @@
 package com.ptCricket.models;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,13 +15,14 @@ import javax.persistence.ManyToOne;
 public class Transactions {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
-	private Date transactionDate;
+	private LocalDate transactionDate;
 	private String message;
-	private Integer amount;
+	private Double amount;
+	private String transactionType;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "player_Id", referencedColumnName = "id")
 	private Players player;
 
@@ -38,7 +40,7 @@ public class Transactions {
 	 * @param amount
 	 * @param player
 	 */
-	public Transactions(int id, Date transactionDate, String message, Integer amount, Players player) {
+	public Transactions(int id, LocalDate transactionDate, String message, Double amount, Players player) {
 		super();
 		this.id = id;
 		this.transactionDate = transactionDate;
@@ -46,6 +48,7 @@ public class Transactions {
 		this.amount = amount;
 		this.player = player;
 	}
+
 
 	/**
 	 * @return the id
@@ -64,14 +67,14 @@ public class Transactions {
 	/**
 	 * @return the transactionDate
 	 */
-	public Date getTransactionDate() {
+	public LocalDate getTransactionDate() {
 		return transactionDate;
 	}
 
 	/**
 	 * @param transactionDate the transactionDate to set
 	 */
-	public void setTransactionDate(Date transactionDate) {
+	public void setTransactionDate(LocalDate transactionDate) {
 		this.transactionDate = transactionDate;
 	}
 
@@ -92,14 +95,14 @@ public class Transactions {
 	/**
 	 * @return the amount
 	 */
-	public Integer getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
 
 	/**
 	 * @param amount the amount to set
 	 */
-	public void setAmount(Integer amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 
@@ -116,5 +119,20 @@ public class Transactions {
 	public void setPlayer(Players playerId) {
 		this.player = playerId;
 	}
+
+	public String getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
+	}
+
+	@Override
+	public String toString() {
+		return "Transactions [id=" + id + ", transactionDate=" + transactionDate + ", message=" + message + ", amount="
+				+ amount + ", transactionType=" + transactionType + ", player=" + player.getId() + "]";
+	}
+	
 	
 }

@@ -1,13 +1,11 @@
 package com.ptCricket.dao;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ptCricket.models.Admin;
 
-@Repository
-@Component
-public interface AdminDao extends CrudRepository<Admin, String> {
-
+public interface AdminDao extends JpaRepository<Admin, String>{ 
+	
+	public Admin findOneByUnameIgnoreCaseAndPswrd(String uname, String password);
+	
 }
